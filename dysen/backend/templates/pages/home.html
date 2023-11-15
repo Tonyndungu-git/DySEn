@@ -6,24 +6,55 @@
 
 Welcome to the Dysen chat!
 
-
-<div id ="tweets">
-    replace this text with tweets
+<div class="row text-center">
+    <div class="col">
+        <h1>Welcome to DYSEN Chat</h1>
+    </div>
+</div>
+<div class="row" id="tweets">
+    Loading ...
 </div>
 <script>
     const tweetsElement = document.getElementById("tweets");
-    tweetsElement.innerHTML = "Loading...";
 
     const xhr = new XMLHttpRequest();
     const method = "GET";
     const url = "/tweets";
+    
+    function handleDidLike(tweet_id, currentCount) {
+        console.log(tweet_id, currentCount)
+        const newCount = currentCount + 1;
+
+    }
+
+    function LikeBtn(tweet) {
+        return "<button class='btn btn-primary btn-sm' onclick=handleTweetActionBtn(" + 
+        tweet.id + "," + tweet.likes + ",'like')>" + tweet.likes + " Likes</button>"
+    }
+
+    function formatTweetElement(tweet) {
+        var formattedTweet = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id='tweet-" 
+        + tweet.id + "'><p>" + tweet.content + 
+        "</p><div class='btn-group'>" + 
+            LikeBtn(tweet) +
+        "</div></div>"
+        
+        return formattedTweet
+    }
     const responseType = "json";
     xhr.responseType = responseType;
     xhr.open(method, url);
     xhr.onload = function() {
         const serverResponse = xhr.response;
-        var listedItems = serverResponse.response;
-        console.log(listedItems);
+        const listedItems = serverResponse.response;
+        var finalTweetStr = "";
+        var i;
+        for (i = 0; i < listedItems.length; i++) {
+            var tweetObject = listedItems[i];
+            var currentItem = formatTweetElement(tweetObject);
+            finalTweetStr += currentItem
+        }
+        tweetsElement.innerHTML = finalTweetStr;
     }
     xhr.send();
 
