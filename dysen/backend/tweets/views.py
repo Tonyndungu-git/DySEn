@@ -8,7 +8,7 @@ from .forms import TweetForm
 from django.http import HttpResponseRedirect
 from django.utils.safestring import SafeString
 from backend.settings import ALLOWED_HOSTS
-from .serializers import TweetSerializer
+from .serializers import TweetSerializer, TweetActionSerializer, TweetCreateSerializer
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -25,7 +25,7 @@ def home_view(request):
 @api_view(['POST']) # http method the client == POST
 @permission_classes([IsAuthenticated]) # REST API course
 def tweet_create_view(request, *args, **kwargs):
-    serializer = TweetSerializer(data=request.POST or None)
+    serializer = TweetCreateSerializer(data=request.POST or None)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
         return Response(serializer.data, status=201)
@@ -76,11 +76,11 @@ def tweet_delete_view(request, tweet_id, *args, **kwargs):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def tweet_action_view(request, *args, **kwargs):
-    """
+    '''
     id is required.
     Action options are: like, unlike, retweet
-    """
-    serializer = TweetSerializer(data=request.POST or None)
+    '''
+    serializer = TweetActionSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         data = serializer.validated_data
         tweet_id = data.get("id")
@@ -107,6 +107,7 @@ def tweet_action_view(request, *args, **kwargs):
             serializer = TweetSerializer(new_tweet)
             return Response(serializer.data, status=201)
     return Response({}, status=200)
+
 
 def tweet_create_view_pure_django(request, *args, **kwargs):
     user = request.user

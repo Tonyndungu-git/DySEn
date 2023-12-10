@@ -12,6 +12,7 @@ class TweetLike(models.Model):
 
 class Tweet(models.Model):
     # Maps to SQL data
+    parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='tweet_user', blank=True, through='TweetLike')
@@ -35,3 +36,8 @@ class Tweet(models.Model):
             "content": self.content,
             "likes": random.randint(0, 200)
         }
+
+    @property
+    def is_retweet(self):
+        return self.parent != None
+    
