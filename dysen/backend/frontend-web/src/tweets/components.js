@@ -67,6 +67,7 @@ export function TweetList(props) {
         }
         apiTweetList(handleTweetListLookup)
       }
+      
     }, [tweetsInit, tweetsDidSet, setTweetsDidSet])
     return tweets.map((item, index) => {
       return <Tweet tweet={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-{item.id}`} />
