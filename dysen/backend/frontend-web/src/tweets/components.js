@@ -1,22 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { loadTweets } from '../lookup'
+import { apiTweetCreate, apiTweetList } from './lookup'
 
 export function TweetsComponent(props) {
     const textAreaRef = React.createRef();
     const [newTweets, setNewTweets] = useState([]);
+    
+    
+    
+    
     const handleSubmit = (event) => {
       event.preventDefault();
-      const newVal = textAreaRef.current.value;
-      let tempNewTweets = [...newTweets];
-      // change the value of the first item in the array
-      tempNewTweets.unshift({
-        content: newVal,
-        likes: 0,
-        id: 12313
+      const newVal = textAreaRef.current.value
+      let tempNewTweets = [...newTweets]
+      // change this to a server side call
+
+      const handleBackendUpdate = (response, status) => {
+        if (status === 201) {
+          tempNewTweets.unshift(response)
+          setNewTweets(tempNewTweets)
+        } else {
+          console.log(response)
+          alert("An error occured please try again")
+        }
+      }
+      apiTweetCreate(newVal, (response, status) => {
+        handleBackendUpdate(response, status)
       })
-      setNewTweets(tempNewTweets);
-      textAreaRef.current.value = '';
+      textAreaRef.current.value = ''
     }
+
+
     return <div className={props.className}>
       <div className='col-12 mb-3'>
         <form onSubmit={handleSubmit}>
@@ -52,7 +65,7 @@ export function TweetList(props) {
             alert("There was an error")
           }
         }
-        loadTweets(handleTweetListLookup)
+        apiTweetList(handleTweetListLookup)
       }
     }, [tweetsInit, tweetsDidSet, setTweetsDidSet])
     return tweets.map((item, index) => {
@@ -61,7 +74,7 @@ export function TweetList(props) {
   }
     
 export function ActionButton(props) {
-    const { tweet, didPerformAction } = props;
+    const { tweet, didperformAction } = props;
     const className = props.className || 'btn btn-primary btn-sm';
     const action = props.action ? props.action.type : 'like';
     const display = props.action ? props.action.display : 'Like';
