@@ -18,6 +18,7 @@ if (root) {
 
 const tweetsEl = document.getElementById('Dysen');
 if (tweetsEl) {
+  console.log(tweetsEl.dataset);
   ReactDOM.render(<TweetsComponent />, tweetsEl);
 }
 
