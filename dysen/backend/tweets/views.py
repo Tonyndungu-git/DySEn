@@ -21,6 +21,16 @@ from rest_framework.authentication import SessionAuthentication
 def home_view(request):
     return render(request, "pages/home.html", context={}, status=200)
 
+def local_tweets_list_view(request, *args, **kwargs):
+    return render(request, "tweets/list.html")
+
+def local_tweets_detail_view(request, tweet_id, *args, **kwargs):
+    return render(request, "tweets/detail.html", context={"tweet_id": tweet_id})
+
+def local_tweets_profile_view(request, username ,*args, **kwargs):
+    return render(request, "tweets/profile.html", context={"profile_username": username})
+
+
 @authentication_classes([SessionAuthentication])
 @api_view(['POST']) # http method the client == POST
 @permission_classes([IsAuthenticated]) # REST API course
@@ -34,6 +44,9 @@ def tweet_create_view(request, *args, **kwargs):
 @api_view(['GET'])
 def tweet_list_view(request, *args, **kwargs):
     qs = Tweet.objects.all()
+    username = request.GET.get('username')
+    if username != None:
+        qs = qs.filter(user__username__iexact=username)
     serializer = TweetSerializer(qs, many=True)
     return Response(serializer.data)
 
