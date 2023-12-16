@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { TweetList } from './list';
-import { TweetCreate } from './create';
-import { apiTweetDetail } from './lookup'
-import { Tweet } from './detail'
+import React, {useEffect, useState}  from 'react'
 
+import {TweetCreate} from './create'
+import {Tweet} from './detail'
+import {apiTweetDetail} from './lookup'
+import {FeedList} from './feed'
+import {TweetList} from './list'
 
-export function TweetsComponent(props) {
+export function FeedComponent(props) {
   const [newTweets, setNewTweets] = useState([])
   const canTweet = props.canTweet === "false" ? false : true
   const handleNewTweet = (newTweet) =>{
@@ -15,9 +16,24 @@ export function TweetsComponent(props) {
   }
   return <div className={props.className}>
           {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='col-12 mb-3' />}
-        <TweetList newTweets={newTweets} {...props} />
+        <FeedList newTweets={newTweets} {...props} />
   </div>
 }
+
+export function TweetsComponent(props) {
+    const [newTweets, setNewTweets] = useState([])
+    const canTweet = props.canTweet === "false" ? false : true
+    const handleNewTweet = (newTweet) =>{
+      let tempNewTweets = [...newTweets]
+      tempNewTweets.unshift(newTweet)
+      setNewTweets(tempNewTweets)
+    }
+    return <div className={props.className}>
+            {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='col-12 mb-3' />}
+          <TweetList newTweets={newTweets} {...props} />
+    </div>
+}
+
 
 export function TweetDetailComponent(props){
   const {tweetId} = props
@@ -41,5 +57,3 @@ export function TweetDetailComponent(props){
 
   return tweet === null ? null : <Tweet tweet={tweet} className={props.className} />
  }
-
-

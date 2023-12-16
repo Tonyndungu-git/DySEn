@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { TweetsComponent, TweetDetailComponent } from './tweets/components';
+import { FeedComponent, TweetDetailComponent, TweetsComponent } from './tweets/components';
 
 const root = document.getElementById('root');
 
@@ -22,6 +22,13 @@ if (tweetsEl) {
   console.log(tweetsEl.dataset);
   ReactDOM.render( e(TweetsComponent, tweetsEl.dataset), tweetsEl);
 }
+
+const tweetFeedEl = document.getElementById("Dysen-feed")
+if (tweetFeedEl) {
+    ReactDOM.render(
+        e(FeedComponent, tweetFeedEl.dataset), tweetFeedEl);
+}
+
 
 
 const tweetDetailElements = document.querySelectorAll(".Dysen-detail")

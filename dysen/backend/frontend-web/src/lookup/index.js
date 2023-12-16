@@ -1,5 +1,5 @@
-import { backendlookup } from "./components";  
+import { backendLookup } from "./components";  
 
 export {
-    backendlookup
+    backendLookup
 }
