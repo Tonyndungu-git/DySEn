@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { FeedComponent, TweetDetailComponent, TweetsComponent } from './tweets/components';
+import { ProfileBadgeComponent } from './profiles/badge';
 
 const root = document.getElementById('root');
 
@@ -38,6 +39,15 @@ tweetDetailElements.forEach(container=> {
         e(TweetDetailComponent, container.dataset), 
         container);
 })
+
+const userProfileBadgeElements = document.querySelectorAll(".Dysen-profile-badge")
+
+userProfileBadgeElements.forEach(container=> {
+    ReactDOM.render(
+        e(ProfileBadgeComponent, container.dataset), 
+        container);
+})
+
 
 
 // If you want to start measuring performance in your app, pass a function

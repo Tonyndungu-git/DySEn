@@ -1,0 +1,11 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <div id='Dysen-feed'></div>
+{% else %}
+    <div id='Dysen'></div>
+{% endif %}
+
+{% endblock content %}
