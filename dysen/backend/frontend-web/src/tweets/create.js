@@ -26,7 +26,7 @@ export function TweetCreate(props){
             <textarea ref={textAreaRef} required={true} className='form-control' name='tweet'>
 
             </textarea>
-            <button type='submit' className='btn btn-primary my-3'>Tweet</button>
+            <button type='submit' className='btn btn-primary my-3'>Comment</button>
         </form>
   </div>
 }

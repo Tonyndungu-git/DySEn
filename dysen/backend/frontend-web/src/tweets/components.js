@@ -37,7 +37,8 @@ export function TweetDetailComponent(props){
   const [didLookup, setDidLookup] = useState(false)
   const [tweet, setTweet] = useState(null)
   const handleBackendLookup = (response, status) => {
-    if (status === 200) {
+    if (status === 200){
+      
       setTweet(response)
     } else {
       alert("There was an error finding your tweet.")
