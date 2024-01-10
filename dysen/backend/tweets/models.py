@@ -32,8 +32,7 @@ class TweetManager(models.Manager):
         return self.get_queryset().feed(user)
 
 class Tweet(models.Model):
-    # Maps to SQL data
-    # id = models.AutoField(primary_key=True)
+    # Maps to SQLite data
     parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tweets") # many users can many tweets
     likes = models.ManyToManyField(User, related_name='tweet_user', blank=True, through=TweetLike)
@@ -42,8 +41,6 @@ class Tweet(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     objects = TweetManager()
-    # def __str__(self):
-    #     return self.content
     
     class Meta:
         ordering = ['-id']

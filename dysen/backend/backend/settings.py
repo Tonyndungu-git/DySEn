@@ -134,11 +134,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static-root")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
     
+
 
 DEFAULT_RENDERER_CLASSES = [
         'rest_framework.renderers.JSONRenderer',
@@ -147,13 +148,12 @@ DEFAULT_RENDERER_CLASSES = [
 DEFAULT_AUTHENTICATION_CLASSES = [
     'rest_framework.authentication.SessionAuthentication'
 ]
-# if DEBUG:
-#     DEFAULT_RENDERER_CLASSES += [
-#         'rest_framework.renderers.BrowsableAPIRenderer',
-#     ]
-#     DEFAULT_AUTHENTICATION_CLASSES += [
-#         'backend.rest_api.dev.DevAuthentication'
-#     ]
+DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+# DEFAULT_AUTHENTICATION_CLASSES += [
+    #     'Dysen.rest_api.dev.DevAuthentication'
+    # ]
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,

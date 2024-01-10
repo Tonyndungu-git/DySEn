@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-# Create your views here.
-
 def login_view(request, *args, **kwargs):
     form = AuthenticationForm(request, data=request.POST or None)
     if form.is_valid():
@@ -15,7 +13,6 @@ def login_view(request, *args, **kwargs):
         "btn_label": "Login",
         "title": "Login"
     }
-
     return render(request, "accounts/auth.html", context)
 
 def logout_view(request, *args, **kwargs):
@@ -25,17 +22,17 @@ def logout_view(request, *args, **kwargs):
     context = {
         "form": None,
         "description": "Are you sure you want to logout?",
-        "btn_label": "Click to confirm",
+        "btn_label": "Click to Confirm",
         "title": "Logout"
-    }   
-    return render(request, "accounts/auth.html", context) 
+    }
+    return render(request, "accounts/auth.html", context)
 
 def register_view(request, *args, **kwargs):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
-        print(form.cleaned_data)
         user = form.save(commit=True)
         user.set_password(form.cleaned_data.get("password1"))
+        # send a confirmation email to verify their account
         login(request, user)
         return redirect("/")
     context = {
@@ -43,5 +40,4 @@ def register_view(request, *args, **kwargs):
         "btn_label": "Register",
         "title": "Register"
     }
-    
     return render(request, "accounts/auth.html", context)
